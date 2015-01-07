@@ -84,7 +84,7 @@ pub fn parse_logging_spec(spec: &str) -> (Vec<LogDirective>, Option<Regex>) {
         match Regex::new(filter) {
             Ok(re) => Some(re),
             Err(e) => {
-                println!("warning: invalid regex filter - {}", e);
+                println!("warning: invalid regex filter - {:?}", e);
                 None
             }
         }
@@ -176,7 +176,7 @@ mod tests {
 
         assert_eq!(dirs[2].name, Some("crate2".to_string()));
         assert_eq!(dirs[2].level, 4);
-        assert!(filter.is_some() && filter.unwrap().to_string() == "abc");
+        assert!(filter.is_some() && format!("{:?}", filter.unwrap()).as_slice() == "abc");
     }
 
     #[test]
@@ -185,7 +185,7 @@ mod tests {
         assert_eq!(dirs.len(), 1);
         assert_eq!(dirs[0].name, Some("crate2".to_string()));
         assert_eq!(dirs[0].level, 4);
-        assert!(filter.is_some() && filter.unwrap().to_string() == "a.c");
+        assert!(filter.is_some() && format!("{:?}", filter.unwrap()).as_slice() == "a.c");
     }
 
     #[test]
@@ -194,6 +194,6 @@ mod tests {
         assert_eq!(dirs.len(), 1);
         assert_eq!(dirs[0].name, Some("crate1".to_string()));
         assert_eq!(dirs[0].level, ::MAX_LOG_LEVEL);
-        assert!(filter.is_some() && filter.unwrap().to_string() == "a*c");
+        assert!(filter.is_some() && format!("{:?}", filter.unwrap()).as_slice() == "a*c");
     }
 }
